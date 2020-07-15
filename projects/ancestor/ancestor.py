@@ -43,7 +43,8 @@ def earliest_ancestor(ancestors, starting_node):
     # get the neighbors
     # loop through neighbors, construct new path by adding each neighbor to the end
     # if neighbor is none
-    # check if len
+    # last node is current node, let's check if the length of current path is bigger than the longest path, or (equal and current node is smaller than earliest ancestor)
+    # assign current node to earliest ancestor
         if current_node not in visited:
             visited.add(current_node)
             neighbors = graph.get(current_node)
