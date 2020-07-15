@@ -54,8 +54,10 @@ def earliest_ancestor(ancestors, starting_node):
                 for neighbor in neighbors:
                     new_path = current_path + [neighbor]
                     queue.enqueue(new_path)
+            # at the end of the path when there's no neighbors
             else:
                 if len(current_path) > longest_path_len or (len(current_path) == longest_path_len and current_node < earliest_ancestor):
+                    longest_path_len = len(current_path)
                     earliest_ancestor = current_node
     return earliest_ancestor
 
