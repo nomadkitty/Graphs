@@ -12,12 +12,9 @@
 
 # 1. Translate into graphs terminology
 #     Node: words
-#     Edges: There's an edge if words are different by one letter and both are in the word list
-
-# 2. getNeighbors
-
+#     Edges exists when: words are 1 letter different, and in our giant list of words
+# 2. Build graph or define getNeighbors
 # 3. choose our algorithm: BFS
-
 
 # Build our graph
 # Could filter our word list by length
