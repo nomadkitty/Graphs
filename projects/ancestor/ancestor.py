@@ -19,7 +19,6 @@ def earliest_ancestor(ancestors, starting_node):
     graph = {}
     queue = Queue()
     visited = set()
-    queue.enqueue([starting_node])
     longest_path_len = 1
     earliest_ancestor = -1
 # loop through the given ancestors list
@@ -34,6 +33,7 @@ def earliest_ancestor(ancestors, starting_node):
     if starting_node not in graph:
         return -1
 
+    queue.enqueue([starting_node])
 # while the queue is not empty
     while queue.size() > 0:
         current_path = queue.dequeue()
