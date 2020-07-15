@@ -63,3 +63,13 @@ def earliest_ancestor(ancestors, starting_node):
 ancestors = [(1, 3), (2, 3), (3, 6), (5, 6), (5, 7),
              (4, 5), (4, 8), (8, 9), (11, 8), (10, 1)]
 earliest_ancestor(ancestors, 6)
+
+# Brianna's recursion solution
+# def earliest_ancestor(ancestors, starting_node):
+#     for parent, child in ancestors:
+#         if child is starting_node:
+#             earliest_parent = earliest_ancestor(ancestors, parent)
+#             if earliest_parent is not -1:
+#                 return earliest_parent
+#             return parent
+#     return -1
