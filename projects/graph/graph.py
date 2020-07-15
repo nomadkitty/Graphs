@@ -119,45 +119,30 @@ class Graph:
         starting_vertex to destination_vertex in
         breath-first order.
         """
-        # make a queue
-        q = Queue()
-        # push the 1st path to the queue
-        q.enqueue([starting_vertex])
-        # make a set of visited
+        # use a Queue and enqueue the 1st path with starting vertex as the only item in the list
+        # track visited vertices with set
+        # track current path and shortest path
+        # while Queue is not empty
+        # dequeue the current path
+        # grab last vertex from the current path list
+        # if the last vertex is the destination vertex, path found
+        # else: if last vertex is not in visited path list
+        # add to visited
+        # get neighbors of the last vertex
+        # construct the new path by adding each neighbor to the path and enqueue the new path
+        queue = Queue()
         visited = set()
-        # make a list of the paths
-        paths = []
-        # shortest path
-        min_path = min_steps = None
-        # while our queue isn't empty
-        while q.size() > 0:
-            # dequeue whatever 1st path on the queue
-            path = q.dequeue()
-            # find the last node from the path
-            last_node = path[-1]
-            # check if it's the destination node, path found
-            if last_node == destination_vertex:
-                # return path
-                paths.append(path)
-                continue
-        # if last node is not is the visited yet
-            if last_node not in visited:
-                # add the last node to the path
-                visited.add(last_node)
-        # get neighbors of the last node
-                neighbors = self.get_neighbors(last_node)
-        # check each neighbor of the last node
-                for neighbor in neighbors:
-                    # append the neighbor to the path
-                    new_path = path + [neighbor]
-                    q.enqueue(new_path)
-        # find the shortest length path as min_path
-        for path in paths:
-            steps = len(path)
-            if min_steps is None or steps < min_steps:
-                min_path = path
-                min_steps = steps
-        return min_path
+        queue.enqueue([starting_vertex])
+        while queue.size() > 0:
+            current_path = queue.dequeue()
+            last_vertex = current_path[-1]
+            if last_vertex == destination_vertex:
+                return current_path
+            if last_vertex not in visited:
+                visited.add(last_vertex)
+                for neighbor in self.get_neighbors(last_vertex):
+                    new_path = current_path + [neighbor]
+                    queue.enqueue(new_path)
 
     def dfs(self, starting_vertex, destination_vertex):
         """
@@ -165,40 +150,22 @@ class Graph:
         starting_vertex to destination_vertex in
         depth-first order.
         """
-        # make a stack
-        s = Stack()
-        # push 1st path to the stack
-        s.push([starting_vertex])
-        # make a list of paths
-        paths = []
-        # make a set of visited
+        # similar logic but using a stack
+        stack = Stack()
         visited = set()
-        # while the stack isn't empty:
-        while s.size() > 0:
-            # pop off the last path of the stack
-            path = s.pop()
-            # grab the last node of the path
-            last_node = path[-1]
-            # check if it's the dest node
-            if last_node == destination_vertex:
-                # return found fath
-                paths.append(path)
-                continue
-            # if the last node is not in visited
-            if last_node not in visited:
-                # add last node to visited
-                visited.add(last_node)
-            # get neighbor of the last node
-                neighbors = self.get_neighbors(last_node)
-            # loop through neighbor
-                for neighbor in neighbors:
-                    # construct a new path
-                    new_path = path + [neighbor]
-            # push the new path up
-                    s.push(new_path)
-        return paths
+        stack.push([starting_vertex])
+        while stack.size() > 0:
+            current_path = stack.pop()
+            last_vertex = current_path[-1]
+            if last_vertex == destination_vertex:
+                return current_path
+            if last_vertex not in visited:
+                visited.add(last_vertex)
+                for neighbor in self.get_neighbors(last_vertex):
+                    new_path = current_path + [neighbor]
+                    stack.push(new_path)
 
-    def dfs_recursive(self, starting_vertex, destination_vertex):
+    def dfs_recursive(self, starting_vertex, destination_vertex, path=[], visited=set()):
         """
         Return a list containing a path from
         starting_vertex to destination_vertex in
@@ -206,8 +173,29 @@ class Graph:
 
         This should be done using recursion.
         """
-        paths = []
-        visited = set()
+        # mark our node as visited
+        visited.add(starting_vertex)
+
+        # check if it's our target node, if so return
+        if starting_vertex == destination_vertex:
+            return path
+
+        if len(path) == 0:
+            path.append(starting_vertex)
+        # iterate over neighbores
+        neighbors = self.get_neighbors(starting_vertex)
+        # check if visited
+        for neighbor in neighbors:
+            # if not, recurse with a path
+            if neighbor not in visited:
+                # if this recursion return a path,
+                new_path = path + [neighbor]
+                result = self.dfs_recursive(
+                    neighbor, destination_vertex, new_path, visited)
+        # if recoursion returns a path,
+                if result is not None:
+                    # return from here
+                    return result
 
 
 if __name__ == '__main__':
