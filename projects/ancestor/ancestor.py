@@ -38,11 +38,10 @@ def earliest_ancestor(ancestors, starting_node):
     while queue.size() > 0:
         current_path = queue.dequeue()
         current_node = current_path[-1]
-    # if the neighbors are none, return the path
     # if it's not in visited, mark as visited
     # get the neighbors
     # loop through neighbors,
-    # construct new path by adding each neighbor to the end if neighbor is none
+    # construct new path by adding each neighbor to the end if neighbor is not none
     # last node is current node,
     # check if the length of current path is bigger than the longest path,
     # or (equal and current node is smaller than earliest ancestor)
