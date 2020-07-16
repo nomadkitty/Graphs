@@ -57,10 +57,13 @@ Code reference in `populate_graph` line 91 - 96
 
 - Percentage: 99.5% because 5/1000 = 0.005 which is 0.5%
   100% - 0.5% so there's a 99.5% chance that any other user would be in my extended network.
-- Average degree is 4, log5(1000) = 4.29 and round down.
+- Average degree is 4, In 1000 / In 5 = log5(1000) = 4.29 and round down.
 
 ## 4. Stretch Goal
 
 1. You might have found the results from question #2 above to be surprising. Would you expect results like this in real life? If not, what are some ways you could improve your friendship distribution model for more realistic results?
 
 2. If you followed the hints for part 1, your `populate_graph()` will run in O(n^2) time. Refactor your code to run in O(n) time. Are there any tradeoffs that come with this implementation?
+
+O(n^2) is sensitive to number of users
+O(n) is sensitive to average friendship, how dense of the graph, the more densely connected the graph, the harder it gets to find new connections randomly
