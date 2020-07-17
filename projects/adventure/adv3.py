@@ -9,13 +9,15 @@ Translate into Graph Terminology
 Nodes: rooms
 Edges: Exits
 find the closest known node with unexplored exits
+
+when a room with no "?" add to visited rooms
+randomly pick a exit, log => travel to that room => get this rooms exits
 '''
 
 from room import Room
 from player import Player
 from world import World
 from util import Stack, Queue
-# from graph import Graph
 
 import random
 from ast import literal_eval
@@ -45,65 +47,28 @@ player = Player(world.starting_room)
 # traversal_path = ['n', 'n']
 traversal_path = []
 
-# print(player.current_room)
-'''
-Understand
-# Build a graph {}
-## check current room exits, {current_room.id: {}}
-## loop through exits to build graph {current_room.id: {exit: "?"}}
-## Randomly pick one of the exits 
-## player travel to that exit
-## check the current room again, add new key of current room and add current room to previous room
-# recursively dft: 
-# check exits
-# loop: travel to all exits, record room id     
-'''
-graph = {}
-starting_room = player.current_room
-inverse_direction = {"n": "s", "s": "n", "w": "e", "e": "w"}
+visited_rooms = {}
+reverse_direction = {"n": "s", "s": "n", "w": "e", "e": "w"}
 
-# add rooms to the graph
-for id in range(len(room_graph)):
-    graph[id] = {}
-    for exit in player.current_room.id.get_exits():
-        graph[id][exit] = '?'
+# add room
 
 
-def get_neighbors(room):
-    neighbors = []
-    room_id = room.id
-    # add directions of each room to the graph
-    exits = room.get_exits()  # return a list of exits
-    # loop through exits
-    for exit in exits:
-        # travel to new room
-        player.travel(exit)
-        # get the new room id
-        new_room = player.current_room
-        # append the room id to neighbors
-        neighbors.append(new_room)
-        # add room to the exit in the graph
-        graph[room_id][exit] = new_room.id
-        # travel back to the original room
-        player.travel(inverse_direction[exit])
-    return neighbors
+def add_room(room, visited_rooms):
+    visited_rooms[room.id] = {}
+    for direction in room.get_exits():
+        visited_rooms[room.id][direction] = "?"
 
 
-def dft_recursive(room, visited_rooms={}):
-    room_exits = room.get_exits()
-    room_id = room.id
-    for exit in room_exits:
-        if exit not in visited_rooms[room_id]:
-            visited_rooms[room_id][exit] = "?"
-            neighbors = get_neighbors(room)
-        for neighbor in neighbors:
-            dft_recursive(neighbor, visited_rooms)
+current_room = player.current_room
+# Outer loop when len of visited rooms is smaller than the room graph len
+while len(visited_rooms) < len(room_graph):
+    # add room if it's not in the visited room graph
+    if current_room.id not in visited_rooms:
+        add_room(current_room, visited_rooms)
 
 
-dft_recursive(starting_room)
+print(visited_rooms)
 
-
-print(graph)
 
 # TRAVERSAL TEST
 visited_rooms = set()
