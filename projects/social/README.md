@@ -23,8 +23,8 @@ It will be easier to build your extended social network if you have users to tes
 
 Note that in the above example, the average number of friendships is exactly 2 but the actual number of friends per user ranges anywhere from 0 to 4.
 
-* Hint 1: To create N random friendships, you could create a list with all possible friendship combinations, shuffle the list, then grab the first N elements from the list. You will need to `import random` to get shuffle.
-* Hint 2: `add_friendship(1, 2)` is the same as `add_friendship(2, 1)`. You should avoid calling one after the other since it will do nothing but print a warning. You can avoid this by only creating friendships where user1 < user2.
+- Hint 1: To create N random friendships, you could create a list with all possible friendship combinations, shuffle the list, then grab the first N elements from the list. You will need to `import random` to get shuffle.
+- Hint 2: `add_friendship(1, 2)` is the same as `add_friendship(2, 1)`. You should avoid calling one after the other since it will do nothing but print a warning. You can avoid this by only creating friendships where user1 < user2.
 
 ## 2. Degrees of Separation
 
@@ -39,18 +39,25 @@ Now that you have a graph full of users and friendships, you can crawl through t
 >>> print(connections)
 {1: [1], 8: [1, 8], 10: [1, 10], 5: [1, 5], 2: [1, 10, 2], 6: [1, 10, 6], 7: [1, 10, 2, 7]}
 ```
+
 Note that in this sample, Users 3, 4 and 9 are not in User 1's extended social network.
 
-* Hint 1: What kind of graph search guarantees you a shortest path?
-* Hint 2: Instead of using a `set` to mark users as visited, you could use a `dictionary`. Similar to sets, checking if something is in a dictionary runs in O(1) time. If the visited user is the key, what would the value be?
+- Hint 1: What kind of graph search guarantees you a shortest path?
+- Hint 2: Instead of using a `set` to mark users as visited, you could use a `dictionary`. Similar to sets, checking if something is in a dictionary runs in O(1) time. If the visited user is the key, what would the value be?
 
 ## 3. Questions
 
 1. To create 100 users with an average of 10 friends each, how many times would you need to call `add_friendship()`? Why?
 
+Total_friendship = 100\*10 = 1000
+Total call to add friendship will be Total_friendship//2 = 1000//2 =500
+Code reference in `populate_graph` line 91 - 96
+
 2. If you create 1000 users with an average of 5 random friends each, what percentage of other users will be in a particular user's extended social network? What is the average degree of separation between a user and those in his/her extended network?
 
-
+- Percentage: 99.5% because 5/1000 = 0.005 which is 0.5%
+  100% - 0.5% so there's a 99.5% chance that any other user would be in my extended network.
+- Average degree is 4, In 1000 / In 5 = log5(1000) = 4.29 and round down.
 
 ## 4. Stretch Goal
 
@@ -58,3 +65,5 @@ Note that in this sample, Users 3, 4 and 9 are not in User 1's extended social n
 
 2. If you followed the hints for part 1, your `populate_graph()` will run in O(n^2) time. Refactor your code to run in O(n) time. Are there any tradeoffs that come with this implementation?
 
+O(n^2) is sensitive to number of users
+O(n) is sensitive to average friendship, how dense of the graph, the more densely connected the graph, the harder it gets to find new connections randomly
